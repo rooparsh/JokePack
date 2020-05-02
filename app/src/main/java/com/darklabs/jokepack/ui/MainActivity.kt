@@ -9,6 +9,7 @@ import androidx.ui.foundation.isSystemInDarkTheme
 import androidx.ui.material.MaterialTheme
 import com.darklabs.jokepack.ui.screen.category.CategoryScreen
 import com.darklabs.jokepack.ui.screen.category.CategoryViewModel
+import com.darklabs.jokepack.ui.screen.joke.JokeScreen
 import com.darklabs.jokepack.ui.state.AppState
 import com.darklabs.jokepack.ui.state.Screen
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,6 +40,7 @@ fun AppContent(viewModel: CategoryViewModel) {
         Crossfade(current = AppState.currentScreen) { screen ->
             when (screen) {
                 is Screen.Categories -> CategoryScreen(viewModel)
+                is Screen.Joke -> JokeScreen()
             }
         }
     }

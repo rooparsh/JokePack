@@ -1,42 +1,49 @@
 package com.darklabs.jokepack.ui.screen.category
 
 import androidx.compose.Composable
-import androidx.compose.remember
 import androidx.ui.core.Modifier
 import androidx.ui.core.drawOpacity
-import androidx.ui.foundation.AdapterList
-import androidx.ui.foundation.Text
-import androidx.ui.foundation.isSystemInDarkTheme
+import androidx.ui.foundation.*
 import androidx.ui.graphics.Color
+import androidx.ui.layout.Arrangement
 import androidx.ui.layout.Column
+import androidx.ui.layout.Row
 import androidx.ui.layout.padding
 import androidx.ui.material.*
 import androidx.ui.text.TextStyle
 import androidx.ui.unit.dp
 import androidx.ui.unit.sp
 import com.darklabs.jokepack.data.observe
+import com.darklabs.jokepack.ui.state.Screen
+import com.darklabs.jokepack.ui.state.navigateTo
 
 @Composable
-fun CategoryScreen(
-    viewModel: CategoryViewModel,
-    scaffoldState: ScaffoldState = remember { ScaffoldState() }
-) {
+fun CategoryScreen(viewModel: CategoryViewModel) {
     Scaffold(
-        scaffoldState = scaffoldState,
         topAppBar = { TopAppBar() },
-        bottomAppBar = { BottomAppBar() }
-    ) {
-        Content(list = observe(viewModel.jokeCategories))
-    }
+        bottomAppBar = { BottomAppBar() },
+        bodyContent = { modifier -> Content(modifier, list = observe(viewModel.jokeCategories)) }
+    )
 }
 
 @Composable
-fun Content(list: List<String>?) {
-    list?.let {
-        AdapterList(data = it) { category ->
-            ListItemWithDivider(category = category)
+fun Content(modifier: Modifier, list: List<String>?) {
+
+    Column(modifier = modifier.padding(start = 20.dp, end = 20.dp)) {
+        Text(text = "Categories")
+        list?.let {
+            AdapterList(data = it) { category ->
+                Clickable(onClick = { onCategoryClick(category) }) {
+                    ListItemWithDivider(category = category)
+                }
+            }
         }
     }
+
+}
+
+private fun onCategoryClick(category: String) {
+    navigateTo(Screen.Joke(category = category))
 }
 
 @Composable
@@ -56,8 +63,14 @@ fun TopAppBar() {
 
 @Composable
 fun BottomAppBar() {
-    BottomAppBar() {
-
+    BottomAppBar {
+        Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Text(text = "Hello")
+            Text(text = "Bye")
+        }
     }
 }
 
@@ -65,14 +78,14 @@ fun BottomAppBar() {
 fun ListItemWithDivider(category: String) {
     Column {
         Text(
-            text = category,
+            text = category.capitalize(),
             modifier = Modifier.padding(top = 8.dp, end = 8.dp),
             style = TextStyle(fontSize = 24.sp),
             color = MaterialTheme.colors.onSurface,
             maxLines = 1
         )
-        LineDivider()
     }
+    LineDivider()
 }
 
 @Composable

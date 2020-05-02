@@ -9,6 +9,7 @@ object AppState {
 
 sealed class Screen {
     object Categories : Screen()
+    data class Joke(val category: String) : Screen()
 }
 
 fun navigateTo(destination: Screen) {
