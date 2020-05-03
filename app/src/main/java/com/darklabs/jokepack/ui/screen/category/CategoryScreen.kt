@@ -14,11 +14,12 @@ import androidx.ui.text.TextStyle
 import androidx.ui.unit.dp
 import androidx.ui.unit.sp
 import com.darklabs.jokepack.data.observe
+import com.darklabs.jokepack.ui.MainViewModel
 import com.darklabs.jokepack.ui.state.Screen
 import com.darklabs.jokepack.ui.state.navigateTo
 
 @Composable
-fun CategoryScreen(viewModel: CategoryViewModel) {
+fun CategoryScreen(viewModel: MainViewModel) {
     Scaffold(
         topAppBar = { TopAppBar() },
         bottomAppBar = { BottomAppBar() },

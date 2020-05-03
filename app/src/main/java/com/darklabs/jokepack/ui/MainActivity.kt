@@ -8,7 +8,6 @@ import androidx.ui.core.setContent
 import androidx.ui.foundation.isSystemInDarkTheme
 import androidx.ui.material.MaterialTheme
 import com.darklabs.jokepack.ui.screen.category.CategoryScreen
-import com.darklabs.jokepack.ui.screen.category.CategoryViewModel
 import com.darklabs.jokepack.ui.screen.joke.JokeScreen
 import com.darklabs.jokepack.ui.state.AppState
 import com.darklabs.jokepack.ui.state.Screen
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel: CategoryViewModel by viewModel()
+        val viewModel: MainViewModel by viewModel()
 
         viewModel.getJokeCategories()
 
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Composable
-fun AppContent(viewModel: CategoryViewModel) {
+fun AppContent(viewModel: MainViewModel) {
     val colorPalette = if (isSystemInDarkTheme()) {
         darkThemeColors
     } else {
@@ -40,7 +39,7 @@ fun AppContent(viewModel: CategoryViewModel) {
         Crossfade(current = AppState.currentScreen) { screen ->
             when (screen) {
                 is Screen.Categories -> CategoryScreen(viewModel)
-                is Screen.Joke -> JokeScreen()
+                is Screen.Joke -> JokeScreen(viewModel, screen.category)
             }
         }
     }
